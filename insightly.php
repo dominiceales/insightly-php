@@ -492,8 +492,33 @@ class Insightly{
   }
 
   public function getOrganizations($options = null){
+    $ids = isset($options["ids"]) ? $options["ids"] : null;
+    $domain = isset($options["domain"]) ? $options["domain"] : null;
+    $tag = isset($options["tag"]) ? $options["tag"] : null;
+
     $request = $this->GET("/v2.1/Organisations");
+
+    // handle standard OData options
     $this->buildODataQuery($request, $options);
+
+    // handle other options
+    if($email != null){
+      $request->queryParam("domain", $domain);
+    }
+    if($tag != null){
+      $request->queryParam("tag", $tag);
+    }
+    if($ids != null){
+      $s = "";
+      foreach($ids as $key => $value){
+        if($key > 0){
+          $s = $s . ",";
+        }
+        $s = $s . $value;
+      }
+      $request->queryParam("ids", $s);
+    }
+
     return $request->asJSON();
   }
 
