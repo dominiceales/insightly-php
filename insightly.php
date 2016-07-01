@@ -225,7 +225,7 @@ class Insightly {
         $url_path = "/{$this->apiVersion}/Contacts";
         $request = null;
 
-        if (isset($contact->CONTACT_ID) && $contact->CONTACT_ID > 0) {
+        if (isset($contact['CONTACT_ID']) && $contact['CONTACT_ID'] > 0) {
             $request = $this->PUT($url_path);
         } else {
             $request = $this->POST($url_path);
